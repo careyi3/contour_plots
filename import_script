@@ -1,0 +1,27 @@
+r.in.srtm input=N52W007.hgt output=N52W007
+r.in.srtm input=N52W008.hgt output=N52W008
+r.in.srtm input=N52W009.hgt output=N52W009
+r.in.srtm input=N52W010.hgt output=N52W010
+r.in.srtm input=N52W011.hgt output=N52W011
+r.in.srtm input=N53W007.hgt output=N53W007
+r.in.srtm input=N53W008.hgt output=N53W008
+r.in.srtm input=N53W009.hgt output=N53W009
+r.in.srtm input=N53W010.hgt output=N53W010
+r.in.srtm input=N53W011.hgt output=N53W011
+r.in.srtm input=N54W007.hgt output=N54W007
+r.in.srtm input=N54W008.hgt output=N54W008
+r.in.srtm input=N54W009.hgt output=N54W009
+r.in.srtm input=N54W010.hgt output=N54W010
+r.in.srtm input=N54W011.hgt output=N54W011
+r.in.srtm input=N55W007.hgt output=N55W007
+r.in.srtm input=N55W008.hgt output=N55W008
+r.in.srtm input=N55W009.hgt output=N55W009
+
+g.region raster=N52W007,N52W008,N52W009,N52W010,N52W011,N53W007,N53W008,N53W009,N53W010,N53W011,N54W007,N54W008,N54W009,N54W010,N54W011,N55W007,N55W008,N55W009
+
+r.patch input=N52W007,N52W008,N52W009,N52W010,N52W011,N53W007,N53W008,N53W009,N53W010,N53W011,N54W007,N54W008,N54W009,N54W010,N54W011,N55W007,N55W008,N55W009 output=IRELAND --overwrite
+
+g.region n=53.07150 s=53.04171 w=-6.40695 e=-6.35730 #tonlagee
+g.region n=53.17138 s=53.13630 w=-6.17521 e=-6.12715 #sugarloaf
+
+r.out.gdal input=IRELAND output=out/out format=AAIGrid --overwrite
