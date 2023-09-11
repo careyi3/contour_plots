@@ -8,7 +8,7 @@ strokes = {
   3 => -> (x, y) { [{start: {x: x, y: y + 0.5}, end: {x: x + 1, y: y + 0.5}}] },
   4 => -> (x, y) { [{start: {x: x + 0.5, y: y}, end: {x: x + 1, y: y + 0.5}}] },
   5 => -> (x, y) { strokes[2].call(x, y) + strokes[7].call(x, y) },
-  6 => -> (x, y) { [{start: {x: x+0.5, y: y + 1}, end: {x: x + 0.5, y: y}}] },
+  6 => -> (x, y) { [{start: {x: x + 0.5, y: y + 1}, end: {x: x + 0.5, y: y}}] },
   7 => -> (x, y) { [{start: {x: x, y: y + 0.5}, end: {x: x + 0.5, y: y}}] },
   8 => -> (x, y) { strokes[7].call(x, y) },
   9 => -> (x, y) { strokes[6].call(x, y) },
@@ -20,18 +20,27 @@ strokes = {
   15 => -> (x, y) { strokes[0].call(x, y) },
 }
 
+starting = Time.now
+
 puts "Reading input data..."
 input = {}
+row_count = File.foreach("./input/#{ARGV[0]}").inject(0) {|c, line| c+1}
+col_count = 0
 File.readlines("./input/#{ARGV[0]}").each_with_index do |line, j|
-  line.split(" ").map(&:to_i).each_with_index do |val, i|
+  row = line.split(" ").map(&:to_i)
+  col_count = row.length
+  row.each_with_index do |val, i|
     next unless val > 0
     if input[val].nil?
-      input[val] = { "#{j}:#{i}" => 1 }
+      input[val] = { "#{row_count - j}:#{i}" => 1 }
     else
-      input[val]["#{j}:#{i}"] = 1
+      input[val]["#{row_count - j}:#{i}"] = 1
     end
   end
 end
+
+extent = [row_count, col_count].max
+scale = 60.0/extent
 
 puts "Processing contours..."
 min = input.keys.min
@@ -164,11 +173,11 @@ commands << "S5000 M3"
 final_paths.each do |path|
   commands << "G0 F400"
   commands << "Z1"
-  commands << "X#{path[:start][:x]} Y#{path[:start][:y]}"
+  commands << "X#{scale*path[:start][:x]} Y#{scale*path[:start][:y]}"
   commands << "Z-0.4"
   commands << "G1 F100"
   path[:strokes].each do |stroke|
-    commands << "X#{stroke[:end][:x]} Y#{stroke[:end][:y]}"
+    commands << "X#{scale*stroke[:end][:x]} Y#{scale*stroke[:end][:y]}"
   end
 end
 commands << "G0 F400"
@@ -183,3 +192,7 @@ commands << "M30"
 File.open("./output/#{ARGV[0]}.nc", "w+") do |f|
   f.puts(commands)
 end
+
+ending = Time.now
+
+puts "Runtime: #{ending-starting}"
