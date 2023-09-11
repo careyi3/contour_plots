@@ -21,6 +21,7 @@ strokes = {
 }
 
 starting = Time.now
+step = ARGV[1]&.to_i || 45
 
 puts "Reading input data..."
 input = {}
@@ -40,14 +41,14 @@ File.readlines("./input/#{ARGV[0]}").each_with_index do |line, j|
 end
 
 extent = [row_count, col_count].max
-scale = 60.0/extent
+scale = 80.0/extent
 
 puts "Processing contours..."
-min = input.keys.min
+min = ARGV[2]&.to_i||input.keys.min
 max = input.keys.max
 master_stroke_hash = {}
 stroke_list = {}
-(min..max-1).step(ARGV[1].to_i).each do |n|
+(min..max-1).step(step).each do |n|
   points = {}
   stroke_list[n] = []
   keys = input.keys.select { |x| x > n }
@@ -173,11 +174,11 @@ commands << "S5000 M3"
 final_paths.each do |path|
   commands << "G0 F400"
   commands << "Z1"
-  commands << "X#{scale*path[:start][:x]} Y#{scale*path[:start][:y]}"
+  commands << "X#{(scale*path[:start][:x]).round(2)} Y#{(scale*path[:start][:y]).round(2)}"
   commands << "Z-0.4"
   commands << "G1 F100"
   path[:strokes].each do |stroke|
-    commands << "X#{scale*stroke[:end][:x]} Y#{scale*stroke[:end][:y]}"
+    commands << "X#{(scale*stroke[:end][:x]).round(2)} Y#{(scale*stroke[:end][:y]).round(2)}"
   end
 end
 commands << "G0 F400"
