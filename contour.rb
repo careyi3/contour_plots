@@ -176,7 +176,7 @@ final_paths.each do |path|
   commands << "Z1"
   commands << "X#{(scale*path[:start][:x]).round(2)} Y#{(scale*path[:start][:y]).round(2)}"
   commands << "Z-0.4"
-  commands << "G1 F100"
+  commands << "G1 F200"
   path[:strokes].each do |stroke|
     commands << "X#{(scale*stroke[:end][:x]).round(2)} Y#{(scale*stroke[:end][:y]).round(2)}"
   end
