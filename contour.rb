@@ -31,7 +31,7 @@ File.readlines("./input/#{ARGV[0]}").each_with_index do |line, j|
   row = line.split(" ").map(&:to_i)
   col_count = row.length
   row.each_with_index do |val, i|
-    next unless val > 0
+    next unless val > ARGV[2]&.to_i||0
     if input[val].nil?
       input[val] = { "#{row_count - j}:#{i}" => 1 }
     else
