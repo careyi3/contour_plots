@@ -28,5 +28,6 @@ g.region n=53.51082 s=53.47082 w=-6.03588 e=-5.99588 #lambay
 g.region n=53.40807 s=53.34807 w=-6.10419 e=-6.04419 #howth
 g.region n=53.87364 s=53.73364 w=-10.06393 e=-9.92393 #clareisland
 g.region n=53.74173 s=53.66173 w=-10.14909 e=-10.06909 #inishturk
+g.region n=55.04463 s=55.02463 w=-8.12297 e=-8.11297 #errigal
 
 r.out.gdal input=IRELAND output=out/out format=AAIGrid --overwrite
