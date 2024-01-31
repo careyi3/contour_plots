@@ -207,4 +207,11 @@ end
 
 ending = Time.now
 
-puts "Runtime: #{(ending - starting).round(2)}"
+runtime = (ending - starting)
+if runtime >= 1.0
+  puts "Runtime: #{runtime.round(2)}s"
+elsif runtime < 1.0 && runtime > 0.001
+  puts "Runtime: #{(1000 * runtime).round(2)}ms"
+else
+  put "Runtime: #{(100_000 * runtime).round(2)}us"
+end
